@@ -45,6 +45,7 @@ export interface Driver {
   username: string
   telephone: string
   address: string
+  status: Status;
   owner: string
   email: string
   images: string[]
@@ -52,7 +53,6 @@ export interface Driver {
   distance: number
   discount: number
   comments: any[]
-  isActive: boolean
   createdAt: string
   updatedAt: string
   description: string
@@ -64,6 +64,8 @@ export interface Driver {
   services: string[]
   rooms: Room[]
 }
+
+export type Status = 'pending' | 'active' | 'block'
 
 export interface Room {
   _id: string

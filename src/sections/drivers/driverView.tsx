@@ -49,6 +49,10 @@ export default function DriverPage() {
         fetchAllDriver();
     }, [])
 
+    const handleChangeDriver = (driver: Driver) => {
+        setDrivers(drivers.map((item) => (item._id === driver._id ? driver : item)));
+    }
+
 
     const handleChangePage = (event: any, newPage: any) => {
         setPage(newPage);
@@ -108,6 +112,7 @@ export default function DriverPage() {
                                         <DriverTableRow
                                             key={driver._id}
                                             driver={driver}
+                                            handleChangeDriver={handleChangeDriver}
                                         />
                                     ))}
 

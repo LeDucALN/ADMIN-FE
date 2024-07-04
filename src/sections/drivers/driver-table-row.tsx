@@ -8,34 +8,49 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Driver } from '../../models';
+import { Driver, Status } from '../../models';
 import DetailHotel from './detail-hotel';
 
 interface Prop {
     driver: Driver;
+    handleChangeDriver: (driver: Driver) => void;
 }
 
 
 export default function DriverTableRow({
-    driver
+    driver,
+    handleChangeDriver
 }: Prop) {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState('');
-    const handleChange = (event: SelectChangeEvent) => {
-        setStatus(event.target.value as string);
+    const handleChangeAction = (event: any) => {
+        handleChangeDriver({ ...driver, status: event.target.value });
     };
-    const getBackgroundColor = (status: any) => {
+    const getBackgroundColor = (status: Status) => {
         switch (status) {
-            case '':
-                return 'orange';
-            case 1:
-                return '#00Ab84';
-            case 2:
-                return '#DDD';
+            case 'pending':
+                return 'FFEB3B';
+            case 'active':
+                return '#4CAF50';
+            case 'block':
+                return '#F44336';
             default:
                 return 'orange';
         }
     };
+
+    const convertStatus = (status: string) => {
+        switch (status) {
+            case 'pending':
+                return 'Chờ xác nhận';
+            case 'active':
+                return 'Đang hoạt động';
+            case 'block':
+                return 'Đã chặn';
+            default:
+                return 'Chờ xác nhận';
+        }
+    }
     return (
         <>
             <TableRow hover tabIndex={-1} >
@@ -86,22 +101,22 @@ export default function DriverTableRow({
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={status}
+                            value={driver.status}
                             hiddenLabel
                             displayEmpty
-                            onChange={handleChange}
+                            onChange={handleChangeAction}
                             sx={{
-                                backgroundColor: getBackgroundColor(status),
+                                backgroundColor: getBackgroundColor(driver.status),
                                 '&.Mui-disabled': {
                                     cursor: 'not-allowed',
                                     color: "white",
                                 },
                             }}
-
+                            renderValue={(value) => convertStatus(value)}
                         >
-                            <MenuItem value='' ><em>Chờ xác nhận</em></MenuItem>
-                            <MenuItem value={1}>Chấp nhận</MenuItem>
-                            <MenuItem value={2}>Từ chối</MenuItem>
+                            <MenuItem value="pending"><em>Chờ xác nhận</em></MenuItem>
+                            <MenuItem value='active'>Chấp nhận</MenuItem>
+                            <MenuItem value='block'>Từ chối</MenuItem>
                         </Select>
                     </FormControl>
                 </TableCell>

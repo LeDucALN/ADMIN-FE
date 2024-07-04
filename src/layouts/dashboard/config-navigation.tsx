@@ -9,7 +9,7 @@ const navConfig = [
   },
   {
     title: 'Quản lý tài xế',
-    path: '/hotels',
+    path: '/drivers',
     icon: <MeetingRoomIcon />,
   },
   {
